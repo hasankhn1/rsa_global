@@ -1,6 +1,6 @@
 JobTrackr – AI-Powered Job Application Manager 🚀
 
-A full-stack MVP for tracking job applications with automated reminders, cover letter generation (via Gemini AI), and status updates. Built with React, Temporal.io (workflow automation), and deployed on Vercel.
+A full-stack MVP for tracking job applications with automated reminders, cover letter generation (via Open AI), and status updates. Built with React, Temporal.io (workflow automation), and deployed on Vercel.
 
 Key Features
 - Add Applications – Track company, role, job description, resume, and deadline.
