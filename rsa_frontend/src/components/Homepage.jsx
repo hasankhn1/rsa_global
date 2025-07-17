@@ -3,14 +3,23 @@
 import React, { useState } from 'react';
 import HomeHeader from './HomeHeader';
 import Link from 'next/link';
+import { Api } from '@/shared/api';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const Homepage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    // Handle login logic here
-    console.log('Login attempted with:', { username, password });
+  const router = useRouter();
+  const handleLogin = async () => {
+    try {
+      await Api.client.login({ username, password })
+      toast('Welcome to JobTrackr');
+      router.push('/application');
+    } catch (error) {
+      console.log(error)
+      toast(error.message)
+    }
   };
 
   return (

@@ -25,7 +25,6 @@ export default function Header() {
           <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Dashboard</a>
           <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Applications</a>
           <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Reminders</a>
-          <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Resources</a>
           <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Profile</a>
         </div>
         <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-gray-200 text-gray-900 gap-2 text-sm font-bold leading-normal tracking-wide min-w-0 px-2.5 hover:bg-gray-300 transition-colors">

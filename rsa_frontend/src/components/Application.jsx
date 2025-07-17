@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import Header from './Header';
 
 const Application = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +26,7 @@ const Application = () => {
   return (
     <div className="relative flex size-full min-h-screen flex-col bg-gray-50 overflow-x-hidden font-sans">
       <div className="layout-container flex h-full grow flex-col">
+        <Header />
         <div className="px-40 flex flex-1 justify-center py-5">
           <div className="flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
             <div className="flex flex-wrap justify-between gap-3 p-4">
