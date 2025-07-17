@@ -4,7 +4,7 @@ A full-stack MVP for tracking job applications with automated reminders, cover l
 
 Key Features
 - Add Applications – Track company, role, job description, resume, and deadline.
-- AI Cover Letters – Gemini API rewrites/resizes cover letters based on job descriptions.
+- AI Cover Letters – Open API rewrites/resizes cover letters based on job descriptions.
 - Temporal Workflows – Automates reminders, follow-ups, and auto-archiving.
 - Status Updates – Mark applications as Interview, Rejected, Offer, etc.
 - Deadline-Based Actions – Reminds you if no response, auto-archives after grace period.
