@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import HomeHeader from './HomeHeader';
 import Link from 'next/link';
 
-const Homepage = () => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleLogin = () => {
     // Handle login logic here
@@ -22,6 +23,8 @@ const Homepage = () => {
             <h2 className="text-gray-900 text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">
               Welcome back
             </h2>
+
+            {/* Username Input */}
             <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
               <div className="flex flex-col min-w-40 flex-1">
                 <input
@@ -29,6 +32,17 @@ const Homepage = () => {
                   placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  className="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-gray-900 focus:outline-0 focus:ring-0 border-none bg-gray-200 focus:border-none h-14 placeholder:text-slate-600 p-4 text-base font-normal leading-normal"
+                />
+              </div>
+            </div>
+            <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <div className="flex flex-col min-w-40 flex-1">
+                <input
+                  type="text"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-gray-900 focus:outline-0 focus:ring-0 border-none bg-gray-200 focus:border-none h-14 placeholder:text-slate-600 p-4 text-base font-normal leading-normal"
                 />
               </div>
@@ -49,13 +63,13 @@ const Homepage = () => {
                 onClick={handleLogin}
                 className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 flex-1 bg-blue-600 text-gray-50 text-sm font-bold leading-normal tracking-wide hover:bg-blue-700 transition-colors"
               >
-                <span className="truncate">Login</span>
+                <span className="truncate">Register</span>
               </button>
             </div>
             <p className="text-slate-600 text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center">
-              <Link href={'/register'}>
+              <Link href={'/'}>
                 <button className="underline hover:text-slate-800 transition-colors">
-                  Don't have an account? Register
+                  Already Signed up? Login
                 </button>
               </Link>
             </p>
@@ -66,4 +80,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default Register;
