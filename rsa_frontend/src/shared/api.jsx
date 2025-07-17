@@ -39,7 +39,22 @@ export const Api = {
             method: "POST",
             body: validatePayload(data),
             headers: {
-              // Don't set Content-Type manually - it will be set automatically
+              "Authorization": localStorage.getItem('auth_id')
+            }
+          }
+        );
+        return response;
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    get_applications: async () => {
+      try {
+        const response = await baseFetch(
+          ({ globalBaseUrl }) => `${globalBaseUrl}/api/application`,
+          {
+            method: "GET",
+            headers: {
               "Authorization": localStorage.getItem('auth_id')
             }
           }
