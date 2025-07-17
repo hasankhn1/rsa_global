@@ -23,7 +23,7 @@ async def create_user_controller(db, request_data):
         db.add(user_data)
         db.commit()
         token = create_access_token(
-            user_data.username, user_data.id, timedelta(minutes=20)
+            user_data.username, user_data.id, timedelta(hours=20)
         )
         return token
     except:
@@ -38,5 +38,5 @@ async def login_user_controller(db, request_data):
         raise HTTPException(status_code=404, detail="No user found")
     if not bcrypt_context.verify(request_data.password, user_data.hashed_password):
         raise HTTPException(status_code=401, detail="Incorrect password")
-    token = create_access_token(user_data.username, user_data.id, timedelta(minutes=20))
+    token = create_access_token(user_data.username, user_data.id, timedelta(hours=20))
     return token

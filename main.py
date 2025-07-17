@@ -1,9 +1,10 @@
 from typing import Annotated
+from fastapi.staticfiles import StaticFiles
 import uvicorn
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from db import SessionLocal
-from routes import user
+from routes import user, application
 
 app = FastAPI(
     title="RSA GLOBAL USE CASE STUDY",
@@ -31,18 +32,12 @@ app.add_middleware(
 )
 
 app.include_router(user.router, prefix="/auth")
+app.include_router(application.router, prefix="/api")
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 @app.get("/")
 async def root():
     return {
-        "service": "SAGEE Skincare AI API",
-        "version": "1.0.0",
-        "endpoints": {
-            "chat": "POST /api/chat",
-            "profile": "GET/POST /api/user/{user_id}/profile",
-            "history": "GET/DELETE /api/user/{user_id}/history",
-            "health": "GET /api/health"
-        },
         "docs": "/docs",
         "redoc": "/redoc"
     }

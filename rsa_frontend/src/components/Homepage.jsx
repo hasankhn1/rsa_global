@@ -13,7 +13,9 @@ const Homepage = () => {
   const router = useRouter();
   const handleLogin = async () => {
     try {
-      await Api.client.login({ username, password })
+      const data = await Api.client.login({ username, password })
+      const authId = `${data.access} ${data.token}` 
+      localStorage.setItem('auth_id', authId);
       toast('Welcome to JobTrackr');
       router.push('/application');
     } catch (error) {
