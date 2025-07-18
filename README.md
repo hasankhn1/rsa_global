@@ -1,5 +1,5 @@
 ### Warning
-Please use docx files with less text for generating cover letter
+***Please use .docx files with less text for generating cover letter***
 
 JobTrackr – AI-Powered Job Application Manager 🚀
 
