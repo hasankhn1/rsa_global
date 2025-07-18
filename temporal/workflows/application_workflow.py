@@ -16,9 +16,7 @@ class ApplicationWorkflow:
 
         if wait_time.total_seconds() > 0:
             await workflow.sleep(wait_time)
-        print(self.status, '*****', wait_time.total_seconds());
         if self.status == "Created":
-            print('here', application_id);
             print("No update by deadline. Triggering reminder.")
             await workflow.execute_activity(
                 send_reminder_notification,
@@ -28,13 +26,13 @@ class ApplicationWorkflow:
             )
 
         # Grace period = 7 days
-        await workflow.sleep(timedelta(seconds=7))
+        await workflow.sleep(timedelta(hours=7))
 
         if self.status == "Created":
             await workflow.execute_activity(
                 auto_archive_application,
                 application_id,
-                schedule_to_close_timeout=timedelta(seconds=10),
+                schedule_to_close_timeout=timedelta(seconds=60),
                 task_queue="application-task-queue"
             )
             workflow.logger.info("Auto-archived application")
