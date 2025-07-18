@@ -23,6 +23,11 @@ class ApplicationResponseSchema(BaseModel):
     cover_letter: str
     deadline: datetime
     created_at: datetime
+    status: Optional[str]
+    needs_reminder: Optional[bool]
+    archived: Optional[bool]
+
+
 
     class Config:
         from_attributes = True

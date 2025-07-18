@@ -1,13 +1,17 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 from fastapi import APIRouter, HTTPException, status
+from sqlalchemy import desc
 from models.application import Application
 from uuid import uuid4
+from temporal.workflows.application_workflow import ApplicationWorkflow
+from temporalio.client import Client
 
 from schemas.application import ApplicationResponseSchema
 from schemas.application_form import ApplicationCreateForm
 
 router = APIRouter(tags=["application"])
+
 
 async def create_application_controller(db, user, form_data: ApplicationCreateForm):
     try:
@@ -27,13 +31,25 @@ async def create_application_controller(db, user, form_data: ApplicationCreateFo
             job_description=form_data.job_description,
             resume=file_path,
             cover_letter=form_data.cover_letter,
-            owner_id=user.get('id'),
-            deadline=form_data.deadline
+            owner_id=user.get("id"),
+            deadline=form_data.deadline,
         )
         db.add(application)
         db.commit()
         db.refresh(application)
+        client = await Client.connect("localhost:7233")
 
+        await client.start_workflow(
+            ApplicationWorkflow.run,
+            args=[
+                application.id,
+                application.deadline.astimezone(timezone.utc).strftime(
+                    "%Y-%m-%dT%H:%M:%S"
+                ),
+            ],
+            id=f"application-workflow-{application.id}",
+            task_queue="application-task-queue",
+        )
         return ApplicationResponseSchema(
             id=application.id,
             company_name=application.company_name,
@@ -43,23 +59,33 @@ async def create_application_controller(db, user, form_data: ApplicationCreateFo
             cover_letter=application.cover_letter,
             deadline=application.deadline,
             created_at=application.created_at,
+            status='Created',
+            archived=False,
+            needs_reminder=False
         )
 
     except Exception as e:
         print(f"Error while creating application: {e}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Could not create application"
+            detail="Could not create application",
         )
 
-    
+
 async def get_all_application_controller(db, user):
     try:
-        print(user);
-        applications = db.query(Application).filter(Application.owner_id == user.get('id')).all()
+        applications = (
+            db.query(Application)
+            .filter(
+                Application.owner_id == user.get("id"), Application.status != "Archived"
+            )
+            .order_by(desc(Application.created_at))
+            .all()
+        )
         return applications
     except Exception as e:
-      print(f"Error while creating application: {e}")
-      raise HTTPException(
-          status_code=status.HTTP_400_BAD_REQUEST, detail="Error while getting applications"
-      )
+        print(f"Error while creating application: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Error while getting applications",
+        )
