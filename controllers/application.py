@@ -38,7 +38,12 @@ async def create_application_controller(db, user, form_data: ApplicationCreateFo
         db.add(application)
         db.commit()
         db.refresh(application)
-        client = await Client.connect("localhost:7233")
+        client = await Client.connect(
+            os.getenv("TEMPORAL_HOST"),
+            namespace=os.getenv("TEMPORAL_NAMESPACE"),
+            api_key=os.getenv("TEMPORAL_API_KEY"),
+            tls=True,
+        )
 
         await client.start_workflow(
             ApplicationWorkflow.run,
@@ -99,7 +104,7 @@ async def get_reminder_applications_count(db, user):
             .filter(
                 Application.owner_id == user.get("id"),
                 Application.needs_reminder == True,
-                Application.status != "Archived"
+                Application.status != "Archived",
             )
             .scalar()
         )

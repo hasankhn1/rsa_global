@@ -1,7 +1,7 @@
 import { merge } from "lodash";
 
 export const globalBaseUrl =
-  process.env.NEXT_PUBLIC_GLOBAL_BASE_URL || "http://localhost:8000";
+  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
 export const baseFetch = async (urlBuilder, options) => {
   const url = typeof urlBuilder === "function" 
