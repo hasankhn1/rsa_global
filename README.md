@@ -1,3 +1,6 @@
+### Warning
+Please use docx files with less text for generating cover letter
+
 JobTrackr – AI-Powered Job Application Manager 🚀
 
 A full-stack MVP for tracking job applications with automated reminders, cover letter generation (via Open AI), and status updates. Built with React, Temporal.io (workflow automation), and deployed on Vercel.
