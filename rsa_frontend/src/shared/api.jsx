@@ -80,9 +80,24 @@ export const Api = {
         throw new Error(error)
       }
     },
+    get_reminder: async (id) => {
+      try {
+        const response = await baseFetch(
+          ({ globalBaseUrl }) => `${globalBaseUrl}/api/application/reminders`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": localStorage.getItem('auth_id')
+            }
+          }
+        );
+        return response;
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
     update_application: async ({id, status}) => {
       try {
-        console.log(id, status, '********');
         const response = await baseFetch(
           ({ globalBaseUrl }) => `${globalBaseUrl}/api/application/${id}`,
           {

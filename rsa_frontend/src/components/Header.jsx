@@ -1,7 +1,19 @@
+'use client';
+
+import { Api } from "@/shared/api";
 import { Bell } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Header() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const getApplications = async () => {
+      const data = await Api.client.get_reminder();
+      setCount(data);
+    }
+    getApplications()
+  }, [])
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-10 py-3">
       <div className="flex items-center gap-4 text-gray-900">
@@ -29,7 +41,7 @@ export default function Header() {
           <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/">Profile</Link>
         </div>
         <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-gray-200 text-gray-900 gap-2 text-sm font-bold leading-normal tracking-wide min-w-0 px-2.5 hover:bg-gray-300 transition-colors">
-          <Bell size={20} />
+          <Bell size={20} /> {count}
         </button>
         <div
           className="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10"

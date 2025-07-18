@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 import os
 from fastapi import APIRouter, HTTPException, status
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 from models.application import Application
 from uuid import uuid4
 from temporal.workflows.application_workflow import ApplicationWorkflow
@@ -89,6 +89,27 @@ async def get_all_application_controller(db, user):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Error while getting applications",
+        )
+
+
+async def get_reminder_applications_count(db, user):
+    try:
+        count = (
+            db.query(func.count(Application.id))
+            .filter(
+                Application.owner_id == user.get("id"),
+                Application.needs_reminder == True,
+                Application.status != "Archived"
+            )
+            .scalar()
+        )
+        print(count)
+        return count
+    except Exception as e:
+        print(f"Error while getting applications count: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Error while getting applications count",
         )
 
 
