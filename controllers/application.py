@@ -59,9 +59,9 @@ async def create_application_controller(db, user, form_data: ApplicationCreateFo
             cover_letter=application.cover_letter,
             deadline=application.deadline,
             created_at=application.created_at,
-            status='Created',
+            status="Created",
             archived=False,
-            needs_reminder=False
+            needs_reminder=False,
         )
 
     except Exception as e:
@@ -88,4 +88,46 @@ async def get_all_application_controller(db, user):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Error while getting applications",
+        )
+
+
+async def get_single_application_controller(db, user, id):
+    try:
+        print(user)
+        applications = (
+            db.query(Application)
+            .filter(Application.owner_id == user.get("id"), Application.id == id)
+            .first()
+        )
+        return applications
+    except Exception as e:
+        print(f"Error while creating application: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Error while getting applications",
+        )
+
+
+async def update_single_application_controller(db, user, id, request_data):
+    try:
+        application = (
+            db.query(Application)
+            .filter(Application.owner_id == user.get("id"), Application.id == id)
+            .first()
+        )
+        if not application:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Application not found"
+            )
+        for key, value in request_data:
+            if hasattr(application, key):
+                setattr(application, key, value)
+        db.commit()
+        db.refresh(application)
+        return application
+    except Exception as e:
+        print(f"Error while updating application: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Error while updating application",
         )

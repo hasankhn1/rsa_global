@@ -5,6 +5,7 @@ import Header from './Header';
 import { Api } from '@/shared/api';
 import { getDaysRemaining, getRandomImages } from '@/utils/utils';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Tracker = () => {
   const [applications, setApplications] = useState([]);
@@ -39,6 +40,7 @@ const Tracker = () => {
                       <span className="truncate">Deadline in {getDaysRemaining(app.deadline)} days</span>
                     </button>
                   </div>
+                  <Link href={`/status/${app.id}`}>
                   <Image
                     src={getRandomImages()}
                     alt='Pro En Image'
@@ -47,6 +49,7 @@ const Tracker = () => {
                     sizes='100vw'
                     className=' w-[150px] h-[100px] relative rtl:scale-x-[-1] border-2 border-gray-200 rounded-lg object-contain p-2 bg-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-green-400 hover:z-10 transform-gpu'
                   />
+                  </Link>
                 </div>
               </div>
             ))}

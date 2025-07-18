@@ -31,3 +31,7 @@ class ApplicationResponseSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class UpdateRequestSchema(BaseModel):
+    status: str

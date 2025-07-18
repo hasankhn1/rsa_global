@@ -64,5 +64,39 @@ export const Api = {
         throw new Error(error)
       }
     },
+    get_application: async (id) => {
+      try {
+        const response = await baseFetch(
+          ({ globalBaseUrl }) => `${globalBaseUrl}/api/application/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": localStorage.getItem('auth_id')
+            }
+          }
+        );
+        return response;
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    update_application: async ({id, status}) => {
+      try {
+        console.log(id, status, '********');
+        const response = await baseFetch(
+          ({ globalBaseUrl }) => `${globalBaseUrl}/api/application/${id}`,
+          {
+            body: validatePayload({status}),
+            method: "PUT",
+            headers: {
+              "Authorization": localStorage.getItem('auth_id')
+            }
+          }
+        );
+        return response;
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
   },
 };

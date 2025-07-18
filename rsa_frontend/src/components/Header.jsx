@@ -1,4 +1,5 @@
 import { Bell } from "lucide-react";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -22,10 +23,10 @@ export default function Header() {
       </div>
       <div className="flex flex-1 justify-end gap-8">
         <div className="flex items-center gap-9">
-          <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Dashboard</a>
-          <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Applications</a>
-          <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Reminders</a>
-          <a className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="#">Profile</a>
+          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/dashboard">Dashboard</Link>
+          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/application">Applications</Link>
+          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/tracker">Reminders</Link>
+          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/">Profile</Link>
         </div>
         <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-gray-200 text-gray-900 gap-2 text-sm font-bold leading-normal tracking-wide min-w-0 px-2.5 hover:bg-gray-300 transition-colors">
           <Bell size={20} />

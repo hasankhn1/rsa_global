@@ -1,7 +1,31 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import Header from './Header';
+import { Api } from '@/shared/api';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
-const Status = () => {
+const Status = ({ id }) => {
+  const router = useRouter();
+  const [application, setApplication] = useState(null);
+  const [status, setStatus] = useState('Interview');
+  useEffect(() => {
+    const getApplication = async () => {
+      const data = await Api.client.get_application(id);
+      setApplication(data);
+    }
+    getApplication()
+  }, [id])
+  const handleUpdate = async () => {
+    try {
+      console.log('here');
+      await Api.client.update_application({ id, status })
+      toast('Status updated successfully.')
+      router.push('/tracker');
+    } catch (error) {
+
+    }
+  }
   return (
     <div
       className="relative flex size-full min-h-screen flex-col bg-gray-50 group/design-root overflow-x-hidden"
@@ -20,21 +44,14 @@ const Status = () => {
             </div>
             <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
               <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-[#101418] text-base font-medium leading-normal pb-2">Current Status</p>
-                <select
-                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border-none bg-[#eaedf1] focus:border-none h-14 bg-[image:var(--select-button-svg)] placeholder:text-[#5c738a] p-4 text-base font-normal leading-normal"
-                  defaultValue="one"
-                >
-                  <option value="one"></option>
-                  <option value="two">two</option>
-                  <option value="three">three</option>
-                </select>
+                <p className="text-[#101418] text-base font-medium leading-normal pb-2">Current Status: {application?.status}</p>
               </label>
             </div>
             <div className="flex flex-col gap-3 p-4">
               <label className="flex items-center gap-4 rounded-xl border border-solid border-[#d4dbe2] p-[15px]">
                 <input
                   type="radio"
+                  onChange={() => setStatus('Interview')}
                   className="h-5 w-5 border-2 border-[#d4dbe2] bg-transparent text-transparent checked:border-[#3f7fbf] checked:bg-[image:var(--radio-dot-svg)] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#3f7fbf]"
                   name="bac40dc0-c81d-4e37-9677-0b51612dfc72"
                   defaultChecked // Use defaultChecked in React for initial checked state
@@ -44,6 +61,7 @@ const Status = () => {
               <label className="flex items-center gap-4 rounded-xl border border-solid border-[#d4dbe2] p-[15px]">
                 <input
                   type="radio"
+                  onChange={() => setStatus('Offer')}
                   className="h-5 w-5 border-2 border-[#d4dbe2] bg-transparent text-transparent checked:border-[#3f7fbf] checked:bg-[image:var(--radio-dot-svg)] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#3f7fbf]"
                   name="bac40dc0-c81d-4e37-9677-0b51612dfc72"
                 />
@@ -52,6 +70,7 @@ const Status = () => {
               <label className="flex items-center gap-4 rounded-xl border border-solid border-[#d4dbe2] p-[15px]">
                 <input
                   type="radio"
+                  onChange={() => setStatus('Rejected')}
                   className="h-5 w-5 border-2 border-[#d4dbe2] bg-transparent text-transparent checked:border-[#3f7fbf] checked:bg-[image:var(--radio-dot-svg)] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#3f7fbf]"
                   name="bac40dc0-c81d-4e37-9677-0b51612dfc72"
                 />
@@ -60,6 +79,7 @@ const Status = () => {
               <label className="flex items-center gap-4 rounded-xl border border-solid border-[#d4dbe2] p-[15px]">
                 <input
                   type="radio"
+                  onChange={() => setStatus('Withdrawn')}
                   className="h-5 w-5 border-2 border-[#d4dbe2] bg-transparent text-transparent checked:border-[#3f7fbf] checked:bg-[image:var(--radio-dot-svg)] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#3f7fbf]"
                   name="bac40dc0-c81d-4e37-9677-0b51612dfc72"
                 />
@@ -68,6 +88,7 @@ const Status = () => {
             </div>
             <div className="flex px-4 py-3 justify-end">
               <button
+                onClick={handleUpdate}
                 className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#3f7fbf] text-gray-50 text-sm font-bold leading-normal tracking-[0.015em]"
               >
                 <span className="truncate">Update Status</span>
