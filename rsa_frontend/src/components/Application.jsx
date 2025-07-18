@@ -4,6 +4,7 @@ import Header from './Header';
 import { Api } from '@/shared/api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { generateCoverLetter } from './OpenAi';
 
 const Application = () => {
   const [formData, setFormData] = useState({
@@ -14,13 +15,25 @@ const Application = () => {
     resume: '',
     cover_letter: ''
   });
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleGenerate = async () => {
+    if (!formData.resume) return;
+    setLoading(true);
+    const resumeText = await formData.resume.text();
+    const coverLetterText = await generateCoverLetter({
+      resumeText,
+      jobTitle: formData.role
+    });
+    handleInputChange('cover_letter', coverLetterText);
+    setLoading(false);
   };
 
   const handleSubmit = async (e) => {
@@ -104,9 +117,13 @@ const Application = () => {
                 </div>
               </div>
             </div>
-            <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+            <div className="flex max-w-[900px] h[500px] flex-wrap items-end gap-4 px-4 py-3">
               <div className="flex flex-col min-w-40 flex-1">
-                <p className="text-gray-900 text-base font-medium leading-normal pb-2">Cover Letter</p>
+                <p className="text-gray-900 text-base font-medium leading-normal pb-2">Cover Letter
+                <button className='ml-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleGenerate} disabled={!formData.resume}>
+                  {loading ? 'Generating...' : 'Generate AI Cover Letter'}
+              </button>
+                </p>
                 <textarea
                   placeholder="Cover letter"
                   value={formData.cover_letter}
