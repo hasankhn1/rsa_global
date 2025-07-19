@@ -17,7 +17,7 @@ const Dashboard = () => {
   }, [])
 
   const onHandleFilter = (e) => {
-    const filterData = applications.filter((ap) => ap.company_name.includes(e.target.value));
+    const filterData = applications.filter((ap) => ap?.company_name?.toLowerCase()?.includes(e.target.value?.toLowerCase()));
     setFilteredApplications(filterData);
   }
   return (
