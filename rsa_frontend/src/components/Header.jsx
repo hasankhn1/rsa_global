@@ -3,9 +3,11 @@
 import { Api } from "@/shared/api";
 import { Bell } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Header() {
+  const router = useRouter();
   const [count, setCount] = useState(0);
   useEffect(() => {
     const getApplications = async () => {
@@ -14,6 +16,10 @@ export default function Header() {
     }
     getApplications()
   }, [])
+  const handleLogout = () => {
+    localStorage.removeItem("auth_id");
+    router.push("/");
+  };
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-10 py-3">
       <div className="flex items-center gap-4 text-gray-900">
@@ -35,10 +41,10 @@ export default function Header() {
       </div>
       <div className="flex flex-1 justify-end gap-8">
         <div className="flex items-center gap-9">
-          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/dashboard">Dashboard</Link>
-          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/application">Applications</Link>
+          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/application">New Application</Link>
           <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/tracker">Reminders</Link>
-          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/">Profile</Link>
+          <Link className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600" href="/dashboard">Search</Link>
+          <button onClick={handleLogout} className="text-gray-900 text-sm font-medium leading-normal hover:text-gray-600 cursor-pointer" href="/">Logout</button>
         </div>
         <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-gray-200 text-gray-900 gap-2 text-sm font-bold leading-normal tracking-wide min-w-0 px-2.5 hover:bg-gray-300 transition-colors">
           <Bell size={20} /> {count}

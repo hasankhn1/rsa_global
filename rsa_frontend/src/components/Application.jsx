@@ -66,7 +66,6 @@ const Application = () => {
               <p className="text-gray-900 text-[32px] font-bold leading-tight min-w-72">New Application</p>
             </div>
 
-            {/* Company Name */}
             <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
               <div className="flex flex-col min-w-40 flex-1">
                 <p className="text-gray-900 text-base font-medium leading-normal pb-2">Company Name</p>

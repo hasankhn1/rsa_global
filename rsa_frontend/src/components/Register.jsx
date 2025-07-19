@@ -16,7 +16,9 @@ const Register = () => {
   const router = useRouter();
   const handleRegister = async () => {
     try {
-      await Api.client.register({ username, hashed_password: password, email, first_name: firstName, last_name: lastName, is_active: true })
+      const data = await Api.client.register({ username, hashed_password: password, email, first_name: firstName, last_name: lastName, is_active: true })
+      const authId = `${data.access} ${data.token}` 
+      localStorage.setItem('auth_id', authId);
       toast('Welcome to JobTrackr');
       router.push('/application');
     } catch (error) {

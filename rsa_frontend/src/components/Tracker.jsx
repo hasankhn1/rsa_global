@@ -12,7 +12,6 @@ const Tracker = () => {
   useEffect(() => {
     const getApplications = async () => {
       const data = await Api.client.get_applications();
-      console.log(data);
       setApplications(data);
     }
     getApplications()
@@ -53,6 +52,9 @@ const Tracker = () => {
                 </div>
               </div>
             ))}
+            {applications && applications.length === 0 && <div className="flex flex-wrap justify-between gap-3 p-4">
+              <p className="text-gray-900 text-[16px] font-medium leading-tight min-w-72">You have zero application reminders</p>
+            </div>}
           </div>
         </div>
       </div>
